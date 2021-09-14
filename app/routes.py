@@ -1,9 +1,13 @@
 from datetime import datetime
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 
-from app.database import scan, read, insert, update, delete
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydb.db"
+db = SQLAlchemy(app)
+
+from app.database import User
 
 
 @app.route("/")
@@ -22,7 +26,16 @@ def get_all_users():
         "status": "ok",
         "message": "Success"
     }
-    out["body"] = scan()
+    users = User.query.all()
+    for user in users:
+        user_dict = {} 
+        user_dict["id"] = user.id
+        user_dict["first_name"] = user.first_name
+        user_dict["last_name"] = user.last_name
+        user_dict["hobbies"] = user.hobbies
+        user_dict["active"] = user.active
+        out["body"].append(user_dict)
+
     return out
 
 
@@ -32,10 +45,19 @@ def get_single_user(pk):
         "status": "ok",
         "message": "Success"
     }
-    out["body"] = read(pk)
+    user = User.query.filter_by(id=pk).first()
+    out["body"] = {
+        "user": {
+            "id": user.id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "hobbies": user.hobbies,
+            "active": user.active
+        }
+    }
     return out
 
-
+"""
 @app.route("/users", methods=["POST"])
 def create_user():
     out = {
@@ -49,8 +71,9 @@ def create_user():
         user_data.get("hobbies")
     )
     return out, 201
+    """
 
-
+"""
 @app.route("/users", methods=["PUT"])
 def update_user():
     out = {
@@ -64,8 +87,9 @@ def update_user():
         user_data.get("hobbies")
     )
     return out, 201
+    """
 
-
+"""
 @app.route("/users", methods=["DELETE"])
 def delete_user():
     out = {
@@ -79,6 +103,7 @@ def delete_user():
         user_data.get("hobbies")
     )
     return out, 201
+    """
 
 
 @app.route('/agent')
