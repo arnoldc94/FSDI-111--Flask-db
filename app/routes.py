@@ -23,12 +23,14 @@ def home():
 @app.route("/users")
 def get_all_users():
     out = {
+        "body": [],
         "status": "ok",
-        "message": "Success"
+        "message": "Success",
     }
     users = User.query.all()
+    
     for user in users:
-        user_dict = {} 
+        user_dict = {}
         user_dict["id"] = user.id
         user_dict["first_name"] = user.first_name
         user_dict["last_name"] = user.last_name
