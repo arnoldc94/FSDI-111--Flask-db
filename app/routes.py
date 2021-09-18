@@ -23,12 +23,11 @@ def home():
 @app.route("/users")
 def get_all_users():
     out = {
-        "body": [],
         "status": "ok",
         "message": "Success",
     }
     users = User.query.all()
-    
+    out['body']=[]
     for user in users:
         user_dict = {}
         user_dict["id"] = user.id
@@ -48,7 +47,7 @@ def get_single_user(pk):
         "message": "Success"
     }
     user = User.query.filter_by(id=pk).first()
-    out["body"] = {
+    {
         "user": {
             "id": user.id,
             "first_name": user.first_name,
@@ -61,17 +60,22 @@ def get_single_user(pk):
 
 """
 @app.route("/users", methods=["POST"])
-def create_user():
+def create_user(pk):
     out = {
         "status": "ok",
         "message": "Success"
     }
     user_data = request.json
-    out["user_id"] = insert(
-        user_data.get("first_name"),
-        user_data.get("last_name"),
-        user_data.get("hobbies")
+    user = User.query.filter_by(id=pk).first()
+    user.(
+        User(
+            first_name = user_data.get("first_name"),
+            last_name = user_data.get("last_name"),
+            hobbies = user_data.get("hobbies") 
+        )   
     )
+    db.session.commit()
+
     return out, 201
     """
 
