@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Not Found{% endblock title %}
+
+{% block content %}
+    <h1>You're lost</h1>
+    <p>Incorrect page</p>
+    <p>Click: <a class="lost" href="{{ url_for('home') }}"> go back to home page</a></p>
+    <img src="{{ url_for('static', filename='img/lost.jpeg', _external=True) }}">
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Details{% endblock title %}
+
+{% block content %}
+<div>
+    <p>ID:{{ user.id }}</p>
+   <p>Last Name:{{ user.last_name|capitalize }}</p>
+    <p>First Name:{{ user.first_name }}</p> 
+    <p>Hobbies:{{ user.hobbies }}</p>
+    <p>Active:{{ user.active }}</p>
+    <a class="btn btn-primary" href="#">Update</a>
+    <a class="btn btn-danger" href="#">Delete</a>
+</div>
+
+
+{% endblock content %}

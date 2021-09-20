@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+    {% if data["status"] == "ok" %}
+        <h1>Server running</h1>
+        <p><small>Server time: {{ data["server_time"] }}</small></p>
+        <p>Server responds: {{ data["message"] }}</p>
+    {% else %}
+        <h1>Server reports errors</h1>
+        <p><small>Server time: {{ data["server_time"] }}</small></p>
+        <p>Server responds: {{ data["message"] }}</p>
+    {% endif %}
+{% endblock content %}
+
