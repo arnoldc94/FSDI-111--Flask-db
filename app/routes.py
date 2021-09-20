@@ -58,16 +58,15 @@ def get_single_user(pk):
     }
     return out
 
-"""
+
 @app.route("/users", methods=["POST"])
-def create_user(pk):
+def create_user():
     out = {
         "status": "ok",
         "message": "Success"
     }
     user_data = request.json
-    user = User.query.filter_by(id=pk).first()
-    user.(
+    db.session.add(
         User(
             first_name = user_data.get("first_name"),
             last_name = user_data.get("last_name"),
@@ -77,39 +76,35 @@ def create_user(pk):
     db.session.commit()
 
     return out, 201
-    """
+    
 
-"""
+
 @app.route("/users", methods=["PUT"])
-def update_user():
-    out = {
-        "status": "ok",
-        "message": "Success"
-    }
-    user_data = request.json
-    out["user_id"] = update(
-        user_data.get("first_name"),
-        user_data.get("last_name"),
-        user_data.get("hobbies")
-    )
-    return out, 201
-    """
+def update_user(pk):
+    
+    
+    user = User.query.filter_by(id=pk).first()
+        
+    if user:
+        delete_user(pk)
+        create_user(pk)
 
-"""
+    
+    db.session.commit()
+    return user, 201
+
+
 @app.route("/users", methods=["DELETE"])
-def delete_user():
+def delete_user(pk):
     out = {
         "status": "ok",
         "message": "Success"
     }
-    user_data = request.json
-    out["user_id"] = delete(
-        user_data.get("first_name"),
-        user_data.get("last_name"),
-        user_data.get("hobbies")
-    )
+    user = User.query.filter_by(id=pk).first()
+    db.session.delete(user)
+    db.session.commit()
     return out, 201
-    """
+
 
 
 @app.route('/agent')
